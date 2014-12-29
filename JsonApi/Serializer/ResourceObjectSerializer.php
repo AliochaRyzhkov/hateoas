@@ -50,13 +50,8 @@ class ResourceObjectSerializer implements SerializerInterface
     {
         $metadata = $this->resource->getMetadata();
         $json = [
-            'id' => $this->resource->id,
-            'type' => $metadata->type
+            'id' => $this->resource->id
         ];
-
-        if ($this->resource->getMetadata()->type != $metadata->subtype) {
-            $json['subtype'] = $metadata->subtype;
-        }
 
         foreach ($this->fields as $field) {
             if ($metadata->isRelationship($field)) {
