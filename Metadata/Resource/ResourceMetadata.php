@@ -75,7 +75,7 @@ class ResourceMetadata implements \Serializable
     {
         $name = substr($method->getShortName(), strlen('inject'));
 
-        return Inflector::hyphenate($name);
+        return lcfirst($name);
     }
 
     /**
