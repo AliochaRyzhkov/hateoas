@@ -28,20 +28,21 @@ class CreateBodyParser implements BodyParserInterface
      */
     public function parse(Request $request, Params $params, array $body)
     {
+        $rawData = isset($body[$params->primaryType]) ? $body[$params->primaryType] : $body['data'];
         $entityData = [];
 
-        if (empty($body[$params->primaryType])) {
+        if (empty($rawData)) {
             throw new ParseException(BodyParser::ERROR_PRIMARY_TYPE_KEY);
         } elseif (
-            Util\ArrayHelper::isAssociative($body[$params->primaryType])
+            Util\ArrayHelper::isAssociative($rawData)
         ) {
-            if (isset($body[$params->primaryType]['id'])) {
+            if (isset($rawData['id'])) {
                 throw new ParseException(static::ERROR_ID_NOT_SUPPORTED);
             } else {
-                $entityData[] = $body[$params->primaryType];
+                $entityData[] = $rawData;
             }
         } else {
-            foreach ($body[$params->primaryType] as $datum) {
+            foreach ($rawData as $datum) {
                 if (isset($datum['id'])) {
                     throw new ParseException(static::ERROR_ID_NOT_SUPPORTED);
                 } else {

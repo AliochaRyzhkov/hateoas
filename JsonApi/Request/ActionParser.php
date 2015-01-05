@@ -136,12 +136,12 @@ class ActionParser
         ) {
             $data = $this->jsonCoder->decode($json);
 
-            if (!is_array($data) || !isset($data[$params->primaryType])) {
+            if (!is_array($data) || (!isset($data[$params->primaryType]) && !isset($data['data']))) {
                 throw new ParseException(self::ERROR_RESOURCE_CONTENT_MISSING);
             }
 
             return !Util\ArrayHelper::isAssociative(
-                $data[$params->primaryType]
+                isset($data[$params->primaryType]) ? $data[$params->primaryType] : $data['data']
             );
         }
 

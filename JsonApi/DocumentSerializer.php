@@ -80,7 +80,7 @@ class DocumentSerializer implements Serializer\DocumentSerializerInterface
                 = $this->serializeResourceObject($resource, $fields);
         }
 
-        $json[$metadata->type] = $document->wasCollection
+        $json['data'] = $document->wasCollection
             ? $primaryResources
             : @$primaryResources[0];
 

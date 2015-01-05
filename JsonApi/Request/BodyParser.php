@@ -214,7 +214,7 @@ JSON;
                 self::ERROR_MISSING_SCHEMA, $params->primaryType
             );
             throw new Raml\MissingSchemaException($message);
-        } elseif (empty($jsonSchema->properties->{$params->primaryType})) {
+        } elseif (empty($jsonSchema->properties->{$params->primaryType}) && empty($jsonSchema->properties->data)) {
             $message = sprintf(
                 self::ERROR_MALFORMED_SCHEMA, $params->primaryType
             );
@@ -222,7 +222,9 @@ JSON;
         }
 
         // @todo Move. (To method? To DocNav?)
-        return $jsonSchema->properties->{$params->primaryType};
+        return isset($jsonSchema->properties->{$params->primaryType})
+            ? $jsonSchema->properties->{$params->primaryType}
+            : $jsonSchema->properties->data;
     }
 
     /**
